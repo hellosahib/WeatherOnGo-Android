@@ -15,7 +15,12 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.URL;
+import java.util.ArrayList;
 
+import tech.rtsproduction.weather2go.Model.WeatherForecast;
+import tech.rtsproduction.weather2go.Model.WeatherInfo;
+import tech.rtsproduction.weather2go.NetworkUtils.DarkSJsonUtils;
+import tech.rtsproduction.weather2go.NetworkUtils.DarkSkyUtils;
 import tech.rtsproduction.weather2go.NetworkUtils.FlickrJsonUtils;
 import tech.rtsproduction.weather2go.NetworkUtils.FlickrUtils;
 import tech.rtsproduction.weather2go.R;
@@ -24,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView mLocation, mTemperature, mWeatherStatus;
     private ImageView mLocationImage;
+    private ArrayList<WeatherInfo> dailyWeather;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         mWeatherStatus = findViewById(R.id.tv_main_weatherStatus);
         mLocationImage = findViewById(R.id.iv_main_backgroundImage);
         new FlickrTask().execute(FlickrUtils.buildURL("31.6340", "74.8723", null));
-
+        new DarkSkyTask().execute(DarkSkyUtils.buildURL("31.6340", "74.8723"));
     }
 
     public void setLocationImage(String url) {
@@ -87,5 +93,26 @@ public class MainActivity extends AppCompatActivity {
 
     }//FLICKR TASK
 
+    public class DarkSkyTask extends AsyncTask<URL, Void, String> {
+        @Override
+        protected String doInBackground(URL... urls) {
+            String jsonData = null;
+            try {
+                jsonData = DarkSkyUtils.getResponsefromHTTP(urls[0]);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return jsonData;
+        }
 
+        @Override
+        protected void onPostExecute(String s) {
+            DarkSJsonUtils jsonUtils = new DarkSJsonUtils(s);
+            try {
+                mTemperature.setText(jsonUtils.getCurrentWeather());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }
