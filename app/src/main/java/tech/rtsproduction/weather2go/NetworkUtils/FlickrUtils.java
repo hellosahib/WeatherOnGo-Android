@@ -4,6 +4,7 @@ import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.squareup.picasso.BuildConfig;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
@@ -22,7 +23,7 @@ public class FlickrUtils {
     private static final String RESULT_METHOD = "flickr.photos.search";
     private static final String RESULT_FORMAT = "json";
     private static final String RESULT_JSONCALLBACK = "1";
-    private static final String RESULT_APIKEY = "cffaac4fa3f2917888d18f7a2e009e14";
+    private static final String RESULT_APIKEY = tech.rtsproduction.weather2go.BuildConfig.FlickrAPI;
     private static final String RESULT_URLEXTRAS = "url_m";
 
     private static final String PARAMS_METHOD = "method";

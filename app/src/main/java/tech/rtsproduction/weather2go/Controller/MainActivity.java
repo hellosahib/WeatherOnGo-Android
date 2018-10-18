@@ -1,5 +1,6 @@
 package tech.rtsproduction.weather2go.Controller;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,11 +14,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.net.URL;
 import java.util.ArrayList;
-
-import tech.rtsproduction.weather2go.Model.WeatherForecast;
 import tech.rtsproduction.weather2go.Model.WeatherInfo;
 import tech.rtsproduction.weather2go.NetworkUtils.DarkSJsonUtils;
 import tech.rtsproduction.weather2go.NetworkUtils.DarkSkyUtils;
@@ -73,7 +71,6 @@ public class MainActivity extends AppCompatActivity {
                 }
                 //UPDATED CALL FOR SPECIFIC PAGE
                 if (rawData != null) {
-
                     pageURL = FlickrUtils.buildURL("31.6340", "74.8723", FlickrUtils.getRandomPage(rawData));
                     try {
                         jsonData = FlickrUtils.getResponseFromHTTP(pageURL);
